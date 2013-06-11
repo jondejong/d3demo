@@ -1,5 +1,16 @@
-Modules
+<div>
+    <h2>Modules</h2>
+</div>
+<div class="pull-left">
+    <ul class="unstyled">
+        <li data-ng-repeat="module in modules">{{module.name}}: <input data-ng-model="module.level" size="3 " />{{module.level}}
+        </li>
+    </ul>
+</div>
+<div class="pull-left" id="container"></div>
 
-<ul>
-    <li data-ng-repeat="module in modules">{{module.name}}: {{module.level}}</li>
-</ul>
+
+<script>
+    $(document).on("ready", function() {
+
+</script>
