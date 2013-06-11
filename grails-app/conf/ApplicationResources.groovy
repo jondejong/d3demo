@@ -12,7 +12,7 @@ modules = {
     bootstrap {
         resource url:'css/bootstrap.css'
         resource url:'css/bootstrap-responsive.css'
-        resource url:'js/bootstrap.js'
+//        resource url:'js/bootstrap.js'
     }
 
     angular {
