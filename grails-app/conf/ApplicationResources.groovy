@@ -33,6 +33,7 @@ modules = {
     d3modules {
         resource url: 'js/d3modules/d3chart.js'
         resource url:'js/d3modules/barchart.js'
+        resource url:'js/d3modules/tbarchart.js'
     }
 
     d3demo {
