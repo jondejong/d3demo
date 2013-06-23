@@ -15,7 +15,27 @@ refreshTBarChart = function(chart, modules){
     var levels =  getTLevels(modules)
     var x =  getTX(levels);
     var rects = chart.selectAll("rect").data(levels);
-    rects.attr("width", x);
+
+    // Basic Transition
+    rects.transition().attr("width", x);
+
+    // Transition with 1 second delay
+//    rects.transition().delay(1000).attr("width", x);
+
+
+    // Modify druation
+//    rects.transition().duration(2000).attr("width", x);
+
+    // Use a function to modify the duration
+//    rects.transition().duration(extendTransition).attr("width", x);
+
+    // User a function to stagger the delay
+//    rects.transition().delay(staggeredDelay).attr("width", x);
+
+
+    // Chain duration and delay functions
+//    rects.transition().duration(extendTransition).delay(staggeredDelay).attr("width", x);
+
 }
 
 var getTLevels = function(modules) {
@@ -31,3 +51,12 @@ var getTX = function (levels) {
         .domain([0, d3.max(levels)])
         .range([0, 420]);
 }
+
+var extendTransition = function(d,i) {
+    return 100 * d;
+}
+
+var staggeredDelay =  function(d,i) {
+    return i * 500;
+}
+
