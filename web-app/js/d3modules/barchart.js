@@ -2,9 +2,7 @@ createBarChart = function (chart, modules) {
 
     var levels =  getLevels(modules)
 
-    var x = d3.scale.linear()
-        .domain([0, d3.max(levels)])
-        .range([0, 420]);
+    var x =  getX(levels);
 
     chart.selectAll("rect")
         .data(levels)
@@ -19,9 +17,7 @@ createBarChart = function (chart, modules) {
 refreshBarChart = function(chart, modules){
     var levels =  getLevels(modules)
 
-    var x = d3.scale.linear()
-        .domain([0, d3.max(levels)])
-        .range([0, 420]);
+    var x =  getX(levels);
 
     var rects = chart.selectAll("rect").data(levels);
     rects.attr("width", x);
@@ -33,4 +29,10 @@ var getLevels = function(modules) {
         levels[i] = modules[i].level;
     }
     return levels;
+}
+
+var getX = function (levels) {
+    return d3.scale.linear()
+        .domain([0, d3.max(levels)])
+        .range([0, 420]);
 }
