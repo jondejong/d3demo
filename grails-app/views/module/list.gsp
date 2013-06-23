@@ -8,9 +8,3 @@
     </ul>
 </div>
 <div class="pull-left" id="container"></div>
-
-
-<script>
-    $(document).on("ready", function() {
-
-</script>

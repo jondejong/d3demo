@@ -1,9 +1,6 @@
 createBarChart = function (chart, modules) {
-
     var levels =  getLevels(modules)
-
     var x =  getX(levels);
-
     chart.selectAll("rect")
         .data(levels)
         .enter().append("rect")
@@ -16,9 +13,7 @@ createBarChart = function (chart, modules) {
 
 refreshBarChart = function(chart, modules){
     var levels =  getLevels(modules)
-
     var x =  getX(levels);
-
     var rects = chart.selectAll("rect").data(levels);
     rects.attr("width", x);
 }
