@@ -16,17 +16,14 @@ createBarChart = function (chart, modules) {
         .attr("height", 20);
 }
 
-refreshBarChart = function($scope){
-    var levels =  new Array();
-    for(var i=0; i<$scope.modules.length; i++) {
-        levels[i] = $scope.modules[i].level;
-    }
+refreshBarChart = function(chart, modules){
+    var levels =  getLevels(modules)
 
     var x = d3.scale.linear()
         .domain([0, d3.max(levels)])
         .range([0, 420]);
 
-    var rects = $scope.chart.selectAll("rect").data(levels);
+    var rects = chart.selectAll("rect").data(levels);
     rects.attr("width", x);
 }
 

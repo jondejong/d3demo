@@ -16,7 +16,7 @@ function BarChartCtrl($scope, $http) {
         createBarChart($scope.chart, $scope.modules);
 
         $scope.$watch('modules', function() {
-            refreshBarChart($scope);
+            refreshBarChart($scope.chart, $scope.modules);
         }, true);
 
     });
