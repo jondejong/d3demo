@@ -13,10 +13,10 @@ function BarChartCtrl($scope, $http) {
         $scope.modules = data;
         $scope.chart = createChart($scope.modules.length);
 
-        updateChart($scope);
+        createBarChart($scope.chart, $scope.modules);
 
         $scope.$watch('modules', function() {
-            refreshChart($scope);
+            refreshBarChart($scope);
         }, true);
 
     });

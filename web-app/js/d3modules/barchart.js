@@ -1,20 +1,12 @@
-updateChart = function ($scope) {
+createBarChart = function (chart, modules) {
 
-    var levels =  new Array();
-    console.log("Updating chart with moduls: ", $scope.modules);
-    for(var i=0; i<$scope.modules.length; i++) {
-        levels[i] = $scope.modules[i].level;
-    }
-
-    console.log("levels: ", levels);
+    var levels =  getLevels(modules)
 
     var x = d3.scale.linear()
         .domain([0, d3.max(levels)])
         .range([0, 420]);
 
-    console.log("X:", x);
-
-    $scope.chart.selectAll("rect")
+    chart.selectAll("rect")
         .data(levels)
         .enter().append("rect")
         .attr("y", function (d, i) {
@@ -24,9 +16,8 @@ updateChart = function ($scope) {
         .attr("height", 20);
 }
 
-refreshChart = function($scope){
+refreshBarChart = function($scope){
     var levels =  new Array();
-//    console.log("Refreshing chart with modules: ", $scope.modules);
     for(var i=0; i<$scope.modules.length; i++) {
         levels[i] = $scope.modules[i].level;
     }
@@ -35,9 +26,14 @@ refreshChart = function($scope){
         .domain([0, d3.max(levels)])
         .range([0, 420]);
 
-    console.log("X:: ", x);
-
-    console.log("updating x's");
     var rects = $scope.chart.selectAll("rect").data(levels);
     rects.attr("width", x);
+}
+
+var getLevels = function(modules) {
+    var levels =  new Array();
+    for(var i=0; i<modules.length; i++) {
+        levels[i] = modules[i].level;
+    }
+    return levels;
 }
