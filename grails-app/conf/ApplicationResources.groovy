@@ -30,8 +30,12 @@ modules = {
         resource url: 'js/d3.min.js'
     }
 
+    d3modules {
+        resource url: 'js/d3modules/d3chart.js'
+    }
+
     d3demo {
-        dependsOn(['angular', 'bootstrap', 'demoResources', 'd3'])
+        dependsOn(['angular', 'bootstrap', 'demoResources', 'd3', 'd3modules'])
         resource url:'js/angular-controllers.js'
         resource url:'js/d3demo.js'
         resource url:'css/d3demo.css'
