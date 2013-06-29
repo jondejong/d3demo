@@ -4,12 +4,13 @@ demo.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.
         when('/barchart', {templateUrl: '/d3demo/partial/module/list', controller: BarChartCtrl}).
         when('/tbarchart', {templateUrl: '/d3demo/partial/module/list', controller: TransitionalBarChartCtrl}).
+        when('/linegraph', {templateUrl: '/d3demo/partial/module/list', controller: LineGraphCtrl}).
         when('/sbarchart', {templateUrl: '/d3demo/partial/module/list', controller: StackedBarChartCtrl}).
+        when('/slinegraph', {templateUrl: '/d3demo/partial/module/list', controller: StackedLineGraphCtrl}).
         when('/piechart', {templateUrl: '/d3demo/partial/module/list', controller: PieChartCtrl}).
-        when('/scatterplot', {templateUrl: '/d3demo/partial/module/list', controller: ScatterPlotCtrl}).
+        when('/dpiechart', {templateUrl: '/d3demo/partial/module/list', controller: DynamicPieChartCtrl}).
         otherwise({redirectTo: '/barchart'});
 }]);
-
 
 function BarChartCtrl($scope, $http) {
     console.log("Bar Chart");
@@ -43,6 +44,22 @@ function TransitionalBarChartCtrl($scope, $http) {
 
 }
 
+function LineGraphCtrl($scope, $http) {
+    console.log("Line Graph");
+    $http.get('/d3demo/module/list/').success(function (data) {
+        $scope.modules = data;
+        $scope.chart = createChart($scope.modules.length);
+
+        createBarChart($scope.chart, $scope.modules);
+
+        $scope.$watch('modules', function() {
+            refreshTBarChart($scope.chart, $scope.modules);
+        }, true);
+
+    });
+
+}
+
 function StackedBarChartCtrl($scope, $http) {
     console.log("Stacked Bar Chart");
     $http.get('/d3demo/module/list/').success(function (data) {
@@ -56,7 +73,21 @@ function StackedBarChartCtrl($scope, $http) {
         }, true);
 
     });
+}
 
+function StackedLineGraphCtrl($scope, $http) {
+    console.log("Stacked Line Graph");
+    $http.get('/d3demo/module/list/').success(function (data) {
+        $scope.modules = data;
+        $scope.chart = createChart($scope.modules.length);
+
+        createBarChart($scope.chart, $scope.modules);
+
+        $scope.$watch('modules', function() {
+            refreshBarChart($scope.chart, $scope.modules);
+        }, true);
+
+    });
 }
 
 function PieChartCtrl($scope, $http) {
@@ -72,11 +103,10 @@ function PieChartCtrl($scope, $http) {
         }, true);
 
     });
-
 }
 
-function ScatterPlotCtrl($scope, $http) {
-    console.log("Scatter Plot");
+function DynamicPieChartCtrl($scope, $http) {
+    console.log("Dynamic Pie Chart");
     $http.get('/d3demo/module/list/').success(function (data) {
         $scope.modules = data;
         $scope.chart = createChart($scope.modules.length);
@@ -86,7 +116,6 @@ function ScatterPlotCtrl($scope, $http) {
         $scope.$watch('modules', function() {
             refreshBarChart($scope.chart, $scope.modules);
         }, true);
-
     });
-
 }
+
