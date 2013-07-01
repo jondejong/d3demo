@@ -1,12 +1,9 @@
 package d3demo
 
-class Module {
+class SubModule {
 
     String name
     BigDecimal level
-
-    static hasMany = [subModules: SubModule, pastModules: PastModule]
-
 
     static constraints = {
     }

@@ -17,7 +17,7 @@ refreshTBarChart = function(chart, modules){
     var rects = chart.selectAll("rect").data(levels);
 
     // Basic Transition
-    rects.transition().attr("width", x);
+//    rects.transition().attr("width", x);
 
     // Transition with 1 second delay
 //    rects.transition().delay(1000).attr("width", x);
@@ -34,7 +34,7 @@ refreshTBarChart = function(chart, modules){
 
 
     // Chain duration and delay functions
-//    rects.transition().duration(extendTransition).delay(staggeredDelay).attr("width", x);
+    rects.transition().duration(extendTransition).delay(staggeredDelay).attr("width", x);
 
 }
 
