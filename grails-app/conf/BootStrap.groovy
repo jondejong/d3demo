@@ -1,5 +1,6 @@
 import d3demo.Module
 import d3demo.SubModule
+import d3demo.TimeIncrementMeasurement
 
 class BootStrap {
 
@@ -9,16 +10,24 @@ class BootStrap {
         def letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
         for(parent in 0..9) {
-            def level = 0
-
             def module = new Module(name: "Module ${letters[parent]}")
 
-            for(sub in 0..5) {
-                def subLevel =  random.nextInt(10);
-                level += subLevel
-                module.addToSubModules(new SubModule(name: "${letters[parent]} Submodule ${sub + 1}", level: subLevel))
+            def subsMap = [:]
+
+            for(sub in 0..2) {
+                subsMap.put(sub, new SubModule(name: "${letters[parent]} Submodule ${sub + 1}"))
             }
-            module.level = level
+
+            for(increment in 0..5) {
+                for(sub in 0..2) {
+                    SubModule subModule = subsMap.get(sub)
+                    subModule.addToTimeIncrementMeasurements(new TimeIncrementMeasurement(incrementNumber: increment, level: random.nextInt(10)))
+                }
+            }
+
+            subsMap.values().each {SubModule subModule ->
+                module.addToSubModules(subModule)
+            }
             module.save(failOnError: true)
         }
 

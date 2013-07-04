@@ -15,7 +15,7 @@ demo.config(['$routeProvider', function ($routeProvider) {
 function BarChartCtrl($scope, $http) {
     console.log("Bar Chart");
     $http.get('/d3demo/module/list/').success(function (data) {
-        $scope.modules = data;
+        $scope.modules = data.modules;
         $scope.chart = createChart($scope.modules.length);
 
         createBarChart($scope.chart, $scope.modules);
@@ -31,7 +31,7 @@ function BarChartCtrl($scope, $http) {
 function TransitionalBarChartCtrl($scope, $http) {
     console.log("Transitional Bar Chart");
     $http.get('/d3demo/module/list/').success(function (data) {
-        $scope.modules = data;
+        $scope.modules = data.modules;
         $scope.chart = createChart($scope.modules.length);
 
         createTBarChart($scope.chart, $scope.modules);
