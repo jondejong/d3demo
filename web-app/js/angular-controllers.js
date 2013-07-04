@@ -47,7 +47,7 @@ function TransitionalBarChartCtrl($scope, $http) {
 function LineGraphCtrl($scope, $http) {
     console.log("Line Graph");
     $http.get('/d3demo/module/list/').success(function (data) {
-        $scope.modules = data;
+        $scope.modules = data.modules;
         $scope.chart = createChart($scope.modules.length);
 
         createBarChart($scope.chart, $scope.modules);
@@ -63,7 +63,7 @@ function LineGraphCtrl($scope, $http) {
 function StackedBarChartCtrl($scope, $http) {
     console.log("Stacked Bar Chart");
     $http.get('/d3demo/module/list/').success(function (data) {
-        $scope.modules = data;
+        $scope.modules = data.modules;
         $scope.chart = createChart($scope.modules.length);
 
         createBarChart($scope.chart, $scope.modules);
@@ -78,7 +78,7 @@ function StackedBarChartCtrl($scope, $http) {
 function StackedLineGraphCtrl($scope, $http) {
     console.log("Stacked Line Graph");
     $http.get('/d3demo/module/list/').success(function (data) {
-        $scope.modules = data;
+        $scope.modules = data.modules;
         $scope.chart = createChart($scope.modules.length);
 
         createBarChart($scope.chart, $scope.modules);
@@ -93,7 +93,7 @@ function StackedLineGraphCtrl($scope, $http) {
 function PieChartCtrl($scope, $http) {
     console.log("Pie Chart");
     $http.get('/d3demo/module/list/').success(function (data) {
-        $scope.modules = data;
+        $scope.modules = data.modules;
         $scope.chart = createChart($scope.modules.length);
 
         createBarChart($scope.chart, $scope.modules);
@@ -108,7 +108,7 @@ function PieChartCtrl($scope, $http) {
 function DynamicPieChartCtrl($scope, $http) {
     console.log("Dynamic Pie Chart");
     $http.get('/d3demo/module/list/').success(function (data) {
-        $scope.modules = data;
+        $scope.modules = data.modules;
         $scope.chart = createChart($scope.modules.length);
 
         createBarChart($scope.chart, $scope.modules);

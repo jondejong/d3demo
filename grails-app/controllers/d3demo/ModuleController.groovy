@@ -13,7 +13,7 @@ class ModuleController {
 
         modules.each { Module module->
             def timeLevels = [:]
-            def moduleMap = [name: module.name]
+            def moduleMap = [name: module.name, subModules: []]
             module.subModules.each {SubModule subModule->
                 subModule.timeIncrementMeasurements.each{
                     if(!timeLevels.get(it.incrementNumber)) {
@@ -21,8 +21,9 @@ class ModuleController {
                     }
                     timeLevels.put(it.incrementNumber, timeLevels.get(it.incrementNumber) + it.level)
                 }
+                moduleMap.subModules.add([name: subModule.name])
             }
-
+            moduleMap.subModules = moduleMap.subModules.sort{a,b-> a.name.compareTo(b.name)}
 
             def times = []
             timeLevels.keySet().each {
