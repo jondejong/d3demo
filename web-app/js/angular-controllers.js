@@ -133,10 +133,8 @@ function PieChartCtrl($scope, $http) {
         $scope.modules = data.modules;
         $scope.chart = createChart($scope.modules.length);
 
-        createBarChart($scope.chart, $scope.modules);
-
         $scope.$watch('modules', function() {
-            refreshBarChart($scope.chart, $scope.modules);
+            refreshPieChart($scope.chart, $scope.modules);
         }, true);
 
     });
