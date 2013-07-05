@@ -61,11 +61,9 @@ function DynamicBarChartCtrl($scope, $http) {
     });
 
     $scope.remove = function(module) {
-        console.log("Removing", module);
         var index = -1;
         for(var i=0; i<$scope.modules.length; i++) {
             var m  = $scope.modules[i];
-            console.log("comparing to m", m);
             if(m == module) {
                 var index = i;
                 break;
