@@ -6,3 +6,11 @@ var createChart = function(dataCount) {
 
     return chart;
 }
+
+var getLevels = function(modules) {
+    var levels =  new Array();
+    for(var i=0; i<modules.length; i++) {
+        levels[i] = modules[i].level;
+    }
+    return levels;
+}

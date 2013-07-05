@@ -4,6 +4,7 @@
 <ul class="nav-header">
     <li><a href="#/barchart">Bar Chart</a></li>
     <li><a href="#/tbarchart">Transitional Bar Chart</a></li>
+    <li><a href="#/dbarchart">Dynamic Bar Chart</a></li>
     <li><a href="#/linegraph">Line Graph</a></li>
     <li><a href="#/sbarchart">Stacked Bar Chart</a></li>
     <li><a href="#/slinegraph">Stacked Line Graph</a></li>

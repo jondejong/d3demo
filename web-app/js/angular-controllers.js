@@ -4,6 +4,7 @@ demo.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.
         when('/barchart', {templateUrl: '/d3demo/partial/module/list', controller: BarChartCtrl}).
         when('/tbarchart', {templateUrl: '/d3demo/partial/module/list', controller: TransitionalBarChartCtrl}).
+        when('/dbarchart', {templateUrl: '/d3demo/partial/module/dynamicBar', controller: DynamicBarChartCtrl}).
         when('/linegraph', {templateUrl: '/d3demo/partial/module/list', controller: LineGraphCtrl}).
         when('/sbarchart', {templateUrl: '/d3demo/partial/module/list', controller: StackedBarChartCtrl}).
         when('/slinegraph', {templateUrl: '/d3demo/partial/module/list', controller: StackedLineGraphCtrl}).
@@ -17,8 +18,6 @@ function BarChartCtrl($scope, $http) {
     $http.get('/d3demo/module/list/').success(function (data) {
         $scope.modules = data.modules;
         $scope.chart = createChart($scope.modules.length);
-
-        createBarChart($scope.chart, $scope.modules);
 
         $scope.$watch('modules', function() {
             refreshBarChart($scope.chart, $scope.modules);
@@ -44,6 +43,47 @@ function TransitionalBarChartCtrl($scope, $http) {
 
 }
 
+function DynamicBarChartCtrl($scope, $http) {
+    console.log("Dynamic Bar Chart");
+
+    $scope.newModule = {};
+    $scope.newModule.name= 'New';
+    $scope.newModule.level = 20;
+
+    $http.get('/d3demo/module/list/').success(function (data) {
+        $scope.modules = data.modules;
+        $scope.chart = createChart($scope.modules.length);
+
+        $scope.$watch('modules', function() {
+            refreshDBarChart($scope.chart, $scope.modules);
+        }, true);
+
+    });
+
+    $scope.remove = function(module) {
+        console.log("Removing", module);
+        var index = -1;
+        for(var i=0; i<$scope.modules.length; i++) {
+            var m  = $scope.modules[i];
+            console.log("comparing to m", m);
+            if(m == module) {
+                var index = i;
+                break;
+            }
+        }
+        if(index != -1) {
+            $scope.modules.splice(index, 1);
+        }
+    }
+
+    $scope.add = function() {
+        var module = {};
+        module.name = $scope.newModule.name;
+        module.level = $scope.newModule.level;
+        $scope.modules[$scope.modules.length] = module;
+    }
+}
+
 function LineGraphCtrl($scope, $http) {
     console.log("Line Graph");
     $http.get('/d3demo/module/list/').success(function (data) {
@@ -57,7 +97,6 @@ function LineGraphCtrl($scope, $http) {
         }, true);
 
     });
-
 }
 
 function StackedBarChartCtrl($scope, $http) {
