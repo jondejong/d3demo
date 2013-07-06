@@ -129,9 +129,12 @@ function StackedLineGraphCtrl($scope, $http) {
 
 function PieChartCtrl($scope, $http) {
     console.log("Pie Chart");
+
     $http.get('/d3demo/module/list/').success(function (data) {
         $scope.modules = data.modules;
         $scope.chart = createChart($scope.modules.length);
+
+        initPieChart($scope.chart);
 
         $scope.$watch('modules', function() {
             refreshPieChart($scope.chart, $scope.modules);
