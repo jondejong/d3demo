@@ -148,17 +148,27 @@ function DynamicPieChartCtrl($scope, $http) {
 
     $http.get('/d3demo/module/list/').success(function (data) {
         $scope.modules = data.modules;
+        $scope.parents = [];
         $scope.chart = createChart($scope.modules.length);
 
         initDPieChart($scope.chart);
+        refreshDPieChart($scope.chart, $scope);
 
         $scope.loadSubModule = function(id) {
             console.log("loading ", id);
+            for(var i=0; i<$scope.modules.length; i++) {
+                if($scope.modules[i].id == id) {
+                    $scope.parents = $scope.modules;
+                    $scope.modules = $scope.modules[i].subModules;
+                    refreshDPieChart($scope.chart, $scope);
+                }
+            }
         }
 
-        $scope.$watch('modules', function() {
-            refreshDPieChart($scope.chart, $scope);
-        }, true);
+//        $scope.$watch('modules', function() {
+//            console.log("refreshing!");
+//            refreshDPieChart($scope.chart, $scope);
+//        }, true);
     });
 }
 

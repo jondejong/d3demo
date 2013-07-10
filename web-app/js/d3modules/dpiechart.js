@@ -58,21 +58,19 @@ refreshDPieChart = function (chart, $scope) {
     paths.enter().append("svg:path")
         .attr("stroke", "white")
         .attr("stroke-width", 0.5)
-        .attr("fill", function (d, i) {
-            return color(i);
-        })
         .on("click", function(d){
             $scope.loadSubModule(d.id);
         })
-        .transition()
+
+    paths.transition()
+        .attr("fill", function (d, i) {
+            return color(i);
+        })
         .duration(dPieGlobals.duration)
         .delay(dPieGlobals.delay)
         .attr("d", arc);
 
-    paths.transition()
-        .duration(dPieGlobals.duration)
-        .delay(dPieGlobals.delay)
-        .attr("d", arc);
+    paths.exit().remove();
 
 
 //    labels
@@ -83,16 +81,19 @@ refreshDPieChart = function (chart, $scope) {
 
     labels.transition()
         .duration(dPieGlobals.duration)
-        .delay(dPieGlobals.delay).attr("transform", function (d) {                    //set the label's origin to the center of the arc
+        .delay(dPieGlobals.delay)
+        .attr("transform", function (d) {                    //set the label's origin to the center of the arc
             //we have to make sure to set these before calling arc.centroid
             d.innerRadius = dPieGlobals.innerRadius;
-            d.outerRadius = dPieGlobals.outerRadius;
+            d.outerRadius = dPieGlobals.radius;
             return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
         })
         .attr("text-anchor", "middle")                          //center the text on it's origin
         .text(function (d, i) {
             return d.name[d.name.length - 1];
         });
+
+    labels.exit().remove();
 
 
 }
