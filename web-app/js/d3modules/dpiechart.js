@@ -4,30 +4,30 @@
 
 //GROUP FOR ARCS/PATHS
 
-var pieGlobals = {};
-pieGlobals.arc_group;
-pieGlobals.radius = 150;
-pieGlobals.innerRadius = 0;
-pieGlobals.duration = 1000;
-pieGlobals.delay = 1000;
+var dPieGlobals = {};
+dPieGlobals.arc_group;
+dPieGlobals.radius = 150;
+dPieGlobals.innerRadius = 0;
+dPieGlobals.duration = 1000;
+dPieGlobals.delay = 1000;
 
-initPieChart = function (chart) {
-    var w = pieGlobals.outerRadius * 2.2;
-    var h = pieGlobals.outerRadius * 2.2;
+initDPieChart = function (chart) {
+    var w = dPieGlobals.outerRadius * 2.2;
+    var h = dPieGlobals.outerRadius * 2.2;
     chart.attr("height", 420);
-    pieGlobals.arc_group = chart.append("svg:g")
+    dPieGlobals.arc_group = chart.append("svg:g")
         .attr("class", "arc")
 //        .attr("transform", "translate(" + w/2 + "," + h/2 + ")");
         .attr("transform", "translate(200,200)");
 
-    pieGlobals.label_group = chart.append("svg:g")
+    dPieGlobals.label_group = chart.append("svg:g")
         .attr("class", "label_group")
         .attr("transform", "translate(200,200)");
 
 }
 
 // Refresh
-refreshPieChart = function (chart, modules) {
+refreshDPieChart = function (chart, modules) {
 
     //D3 helper function to create colors from an ordinal scale
     var color = d3.scale.category20();
@@ -39,8 +39,8 @@ refreshPieChart = function (chart, modules) {
         .endAngle(function (d) {
             return d.endAngle;
         })
-        .innerRadius(pieGlobals.innerRadius)
-        .outerRadius(pieGlobals.radius);
+        .innerRadius(dPieGlobals.innerRadius)
+        .outerRadius(dPieGlobals.radius);
 
     var pie = d3.layout.pie().value(function (d) {
         return d.level;
@@ -58,7 +58,7 @@ refreshPieChart = function (chart, modules) {
     );
 
     //DRAW ARC PATHS
-    var paths = pieGlobals.arc_group.selectAll("path").data(filteredPieData);
+    var paths = dPieGlobals.arc_group.selectAll("path").data(filteredPieData);
 
     paths.enter().append("svg:path")
         .attr("stroke", "white")
@@ -66,31 +66,34 @@ refreshPieChart = function (chart, modules) {
         .attr("fill", function (d, i) {
             return color(i);
         })
+        .on("click", function(d){
+            console.log("Clicking on ", d.name);
+        })
         .transition()
-        .duration(pieGlobals.duration)
-        .delay(pieGlobals.delay)
+        .duration(dPieGlobals.duration)
+        .delay(dPieGlobals.delay)
         .attr("d", arc);
 
     paths.transition()
-        .duration(pieGlobals.duration)
-        .delay(pieGlobals.delay)
+        .duration(dPieGlobals.duration)
+        .delay(dPieGlobals.delay)
         .attr("d", arc);
 
 
 //    labels
-    var labels = pieGlobals.label_group.selectAll('text.value').data(filteredPieData);
+    var labels = dPieGlobals.label_group.selectAll('text.value').data(filteredPieData);
 
     labels.enter().append("svg:text")
         .attr("class", "value");
 
     labels.transition()
-        .duration(pieGlobals.duration)
-        .delay(pieGlobals.delay).attr("transform", function (d) {                    //set the label's origin to the center of the arc
-        //we have to make sure to set these before calling arc.centroid
-        d.innerRadius = pieGlobals.innerRadius;
-        d.outerRadius = pieGlobals.outerRadius;
-        return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
-    })
+        .duration(dPieGlobals.duration)
+        .delay(dPieGlobals.delay).attr("transform", function (d) {                    //set the label's origin to the center of the arc
+            //we have to make sure to set these before calling arc.centroid
+            d.innerRadius = dPieGlobals.innerRadius;
+            d.outerRadius = dPieGlobals.outerRadius;
+            return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
+        })
         .attr("text-anchor", "middle")                          //center the text on it's origin
         .text(function (d, i) {
             return d.name[d.name.length - 1];

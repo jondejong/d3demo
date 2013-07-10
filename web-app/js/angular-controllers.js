@@ -145,14 +145,15 @@ function PieChartCtrl($scope, $http) {
 
 function DynamicPieChartCtrl($scope, $http) {
     console.log("Dynamic Pie Chart");
+
     $http.get('/d3demo/module/list/').success(function (data) {
         $scope.modules = data.modules;
         $scope.chart = createChart($scope.modules.length);
 
-        createBarChart($scope.chart, $scope.modules);
+        initDPieChart($scope.chart);
 
         $scope.$watch('modules', function() {
-            refreshBarChart($scope.chart, $scope.modules);
+            refreshDPieChart($scope.chart, $scope.modules);
         }, true);
     });
 }
