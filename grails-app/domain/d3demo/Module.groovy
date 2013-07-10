@@ -7,7 +7,6 @@ class Module {
     static hasMany = [subModules: SubModule]
 
     static mapping = {
-        timeIncrements lazy: false
     }
 
     static constraints = {
