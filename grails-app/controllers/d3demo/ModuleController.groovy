@@ -36,6 +36,8 @@ class ModuleController {
                     subModuleMap.timeIncrementMeasurements.add(["${it}": timeIncrementtMap.get(it)])
                 }
 
+                subModuleMap.level = timeIncrementtMap.get(keys.get(keys[keys.size() - 1]))
+
                 // add submodule to parent
                 moduleMap.subModules.add(subModuleMap)
             }
