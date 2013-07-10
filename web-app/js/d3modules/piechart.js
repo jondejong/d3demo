@@ -12,17 +12,18 @@ pieGlobals.duration = 1000;
 pieGlobals.delay = 1000;
 
 initPieChart = function (chart) {
-    var w = pieGlobals.outerRadius * 2.2;
-    var h = pieGlobals.outerRadius * 2.2;
-    chart.attr("height", 420);
+    var w = pieGlobals.radius * 2.2;
+    var h = pieGlobals.radius * 2.2;
+    var transform = "translate(" + w / 2 + "," + h / 2 + ")";
+
+    chart.attr("height", h);
     pieGlobals.arc_group = chart.append("svg:g")
         .attr("class", "arc")
-//        .attr("transform", "translate(" + w/2 + "," + h/2 + ")");
-        .attr("transform", "translate(200,200)");
+        .attr("transform", transform);
 
     pieGlobals.label_group = chart.append("svg:g")
         .attr("class", "label_group")
-        .attr("transform", "translate(200,200)");
+        .attr("transform", transform);
 
 }
 
@@ -48,17 +49,15 @@ refreshPieChart = function (chart, modules) {
 
     var pieData = pie(modules);
 
-    var filteredPieData = pieData.filter(
-        function (element, index, array) {
+    pieData.filter(function (element, index, array) {
             element.name = modules[index].name;
             element.level = modules[index].level;
             return (element.level > 0);
         }
-
     );
 
     //DRAW ARC PATHS
-    var paths = pieGlobals.arc_group.selectAll("path").data(filteredPieData);
+    var paths = pieGlobals.arc_group.selectAll("path").data(pieData);
 
     paths.enter().append("svg:path")
         .attr("stroke", "white")
@@ -78,7 +77,7 @@ refreshPieChart = function (chart, modules) {
 
 
 //    labels
-    var labels = pieGlobals.label_group.selectAll('text.value').data(filteredPieData);
+    var labels = pieGlobals.label_group.selectAll('text.value').data(pieData);
 
     labels.enter().append("svg:text")
         .attr("class", "value");
@@ -86,11 +85,11 @@ refreshPieChart = function (chart, modules) {
     labels.transition()
         .duration(pieGlobals.duration)
         .delay(pieGlobals.delay).attr("transform", function (d) {                    //set the label's origin to the center of the arc
-        //we have to make sure to set these before calling arc.centroid
-        d.innerRadius = pieGlobals.innerRadius;
-        d.outerRadius = pieGlobals.outerRadius;
-        return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
-    })
+            //we have to make sure to set these before calling arc.centroid
+            d.innerRadius = pieGlobals.innerRadius;
+            d.outerRadius = pieGlobals.outerRadius;
+            return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
+        })
         .attr("text-anchor", "middle")                          //center the text on it's origin
         .text(function (d, i) {
             return d.name[d.name.length - 1];

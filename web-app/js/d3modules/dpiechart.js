@@ -44,21 +44,16 @@ refreshDPieChart = function (chart, $scope) {
 
     var pieData = pie($scope.modules);
 
-    var filteredPieData = pieData.filter(
-        function (element, index, array) {
+    pieData.filter( function (element, index, array) {
             element.name = $scope.modules[index].name;
             element.level = $scope.modules[index].level;
             element.id = $scope.modules[index].id;
             return (element.level > 0);
         }
-
     );
 
-    console.log("pieData", pieData);
-    console.log("Filtered Pie Data", filteredPieData);
-
     //DRAW ARC PATHS
-    var paths = dPieGlobals.arc_group.selectAll("path").data(filteredPieData);
+    var paths = dPieGlobals.arc_group.selectAll("path").data(pieData);
 
     paths.enter().append("svg:path")
         .attr("stroke", "white")
@@ -81,7 +76,7 @@ refreshDPieChart = function (chart, $scope) {
 
 
 //    labels
-    var labels = dPieGlobals.label_group.selectAll('text.value').data(filteredPieData);
+    var labels = dPieGlobals.label_group.selectAll('text.value').data(pieData);
 
     labels.enter().append("svg:text")
         .attr("class", "value");
