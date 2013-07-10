@@ -1,33 +1,29 @@
-///////////////////////////////////////////////////////////
-// CREATE VIS & GROUPS ////////////////////////////////////
-///////////////////////////////////////////////////////////
-
-//GROUP FOR ARCS/PATHS
-
 var dPieGlobals = {};
 dPieGlobals.arc_group;
-dPieGlobals.radius = 150;
+dPieGlobals.label_group;
+dPieGlobals.radius = 200;
 dPieGlobals.innerRadius = 0;
 dPieGlobals.duration = 1000;
 dPieGlobals.delay = 1000;
 
 initDPieChart = function (chart) {
-    var w = dPieGlobals.outerRadius * 2.2;
-    var h = dPieGlobals.outerRadius * 2.2;
-    chart.attr("height", 420);
+    var w = dPieGlobals.radius * 2.2;
+    var h = dPieGlobals.radius * 2.2;
+    var transform = "translate(" + w/2 + "," + h/2 + ")";
+
+    chart.attr("height", h);
     dPieGlobals.arc_group = chart.append("svg:g")
         .attr("class", "arc")
-//        .attr("transform", "translate(" + w/2 + "," + h/2 + ")");
-        .attr("transform", "translate(200,200)");
+        .attr("transform", transform);
 
     dPieGlobals.label_group = chart.append("svg:g")
         .attr("class", "label_group")
-        .attr("transform", "translate(200,200)");
+        .attr("transform", transform);
 
 }
 
 // Refresh
-refreshDPieChart = function (chart, modules) {
+refreshDPieChart = function (chart, $scope) {
 
     //D3 helper function to create colors from an ordinal scale
     var color = d3.scale.category20();
@@ -46,16 +42,20 @@ refreshDPieChart = function (chart, modules) {
         return d.level;
     });
 
-    var pieData = pie(modules);
+    var pieData = pie($scope.modules);
 
     var filteredPieData = pieData.filter(
         function (element, index, array) {
-            element.name = modules[index].name;
-            element.level = modules[index].level;
+            element.name = $scope.modules[index].name;
+            element.level = $scope.modules[index].level;
+            element.id = $scope.modules[index].id;
             return (element.level > 0);
         }
 
     );
+
+    console.log("pieData", pieData);
+    console.log("Filtered Pie Data", filteredPieData);
 
     //DRAW ARC PATHS
     var paths = dPieGlobals.arc_group.selectAll("path").data(filteredPieData);
@@ -67,7 +67,7 @@ refreshDPieChart = function (chart, modules) {
             return color(i);
         })
         .on("click", function(d){
-            console.log("Clicking on ", d.name);
+            $scope.loadSubModule(d.id);
         })
         .transition()
         .duration(dPieGlobals.duration)

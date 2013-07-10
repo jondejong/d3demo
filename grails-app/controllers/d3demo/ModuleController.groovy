@@ -13,9 +13,9 @@ class ModuleController {
 
         modules.each { Module module ->
             def timeLevels = [:]
-            def moduleMap = [name: module.name, subModules: []]
+            def moduleMap = [id: module.id, name: module.name, subModules: []]
             module.subModules.each { SubModule subModule ->
-                def subModuleMap = [name: subModule.name, timeIncrementMeasurements: []]
+                def subModuleMap = [id: subModule.id, name: subModule.name, timeIncrementMeasurements: []]
                 def timeIncrementtMap = [:]
                 subModule.timeIncrementMeasurements.each {
 

@@ -9,7 +9,7 @@ demo.config(['$routeProvider', function ($routeProvider) {
         when('/sbarchart', {templateUrl: '/d3demo/partial/module/list', controller: StackedBarChartCtrl}).
         when('/slinegraph', {templateUrl: '/d3demo/partial/module/list', controller: StackedLineGraphCtrl}).
         when('/piechart', {templateUrl: '/d3demo/partial/module/list', controller: PieChartCtrl}).
-        when('/dpiechart', {templateUrl: '/d3demo/partial/module/list', controller: DynamicPieChartCtrl}).
+        when('/dpiechart', {templateUrl: '/d3demo/partial/module/dynamicPie', controller: DynamicPieChartCtrl}).
         otherwise({redirectTo: '/barchart'});
 }]);
 
@@ -152,8 +152,12 @@ function DynamicPieChartCtrl($scope, $http) {
 
         initDPieChart($scope.chart);
 
+        $scope.loadSubModule = function(id) {
+            console.log("loading ", id);
+        }
+
         $scope.$watch('modules', function() {
-            refreshDPieChart($scope.chart, $scope.modules);
+            refreshDPieChart($scope.chart, $scope);
         }, true);
     });
 }
