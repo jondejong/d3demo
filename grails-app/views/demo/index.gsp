@@ -10,6 +10,7 @@
     <li><a href="#/slinegraph">Stacked Line Graph</a></li>
     <li><a href="#/piechart">Pie Chart</a></li>
     <li><a href="#/dpiechart">Dynamic Pie Chart</a></li>
+    <li><a href="#/forcechart">Force Chart</a></li>
     %{--<li><a href="#/scatterplot">Scatter Plot</a></li>--}%
 </ul>
 <div ng-view></div>

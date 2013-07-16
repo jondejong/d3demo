@@ -10,6 +10,7 @@ demo.config(['$routeProvider', function ($routeProvider) {
         when('/slinegraph', {templateUrl: '/d3demo/partial/module/list', controller: StackedLineGraphCtrl}).
         when('/piechart', {templateUrl: '/d3demo/partial/module/list', controller: PieChartCtrl}).
         when('/dpiechart', {templateUrl: '/d3demo/partial/module/dynamicPie', controller: DynamicPieChartCtrl}).
+        when('/forcechart', {templateUrl: '/d3demo/partial/module/list', controller: ForceChartCtrl}).
         otherwise({redirectTo: '/barchart'});
 }]);
 
@@ -165,10 +166,18 @@ function DynamicPieChartCtrl($scope, $http) {
             }
         }
 
-//        $scope.$watch('modules', function() {
-//            console.log("refreshing!");
-//            refreshDPieChart($scope.chart, $scope);
-//        }, true);
+    });
+}
+
+function ForceChartCtrl($scope, $http) {
+    console.log("Force Chart");
+    $http.get('/d3demo/module/list/').success(function (data) {
+        $scope.modules = data.modules;
+        $scope.chart = createChart($scope.modules.length);
+
+        $scope.$watch('modules', function() {
+            refreshForce($scope.chart, $scope.modules);
+        }, true);
     });
 }
 
