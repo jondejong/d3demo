@@ -2,3 +2,9 @@
     stroke: black;
     fill: #40FF00;
 }
+
+.link {
+    stroke: #999;
+    stroke-opacity: .6;
+    stroke-width: 2;
+}
