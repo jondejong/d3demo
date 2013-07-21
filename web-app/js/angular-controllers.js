@@ -6,8 +6,6 @@ demo.config(['$routeProvider', function ($routeProvider) {
         when('/tbarchart', {templateUrl: '/d3demo/partial/module/list', controller: TransitionalBarChartCtrl}).
         when('/dbarchart', {templateUrl: '/d3demo/partial/module/dynamicBar', controller: DynamicBarChartCtrl}).
         when('/linegraph', {templateUrl: '/d3demo/partial/module/linegraph', controller: LineGraphCtrl}).
-        when('/sbarchart', {templateUrl: '/d3demo/partial/module/list', controller: StackedBarChartCtrl}).
-        when('/slinegraph', {templateUrl: '/d3demo/partial/module/list', controller: StackedLineGraphCtrl}).
         when('/piechart', {templateUrl: '/d3demo/partial/module/list', controller: PieChartCtrl}).
         when('/dpiechart', {templateUrl: '/d3demo/partial/module/dynamicPie', controller: DynamicPieChartCtrl}).
         when('/forcechart', {templateUrl: '/d3demo/partial/module/chart', controller: ForceChartCtrl}).
@@ -88,42 +86,13 @@ function LineGraphCtrl($scope, $http) {
     $http.get('/d3demo/module/list/').success(function (data) {
         $scope.modules = data.modules;
         for(var i=0;i<$scope.modules.length;i++){
-            $scope.modules[i].show = true;
+            $scope.modules[i].display = false;
         }
+        $scope.modules[0].display = true;
         $scope.chart = createLineGraph();
 
         $scope.$watch('modules', function() {
             refreshLineGraph($scope.chart, $scope.modules);
-        }, true);
-
-    });
-}
-
-function StackedBarChartCtrl($scope, $http) {
-    console.log("Stacked Bar Chart");
-    $http.get('/d3demo/module/list/').success(function (data) {
-        $scope.modules = data.modules;
-        $scope.chart = createChart($scope.modules.length);
-
-        createBarChart($scope.chart, $scope.modules);
-
-        $scope.$watch('modules', function() {
-            refreshBarChart($scope.chart, $scope.modules);
-        }, true);
-
-    });
-}
-
-function StackedLineGraphCtrl($scope, $http) {
-    console.log("Stacked Line Graph");
-    $http.get('/d3demo/module/list/').success(function (data) {
-        $scope.modules = data.modules;
-        $scope.chart = createChart($scope.modules.length);
-
-        createBarChart($scope.chart, $scope.modules);
-
-        $scope.$watch('modules', function() {
-            refreshBarChart($scope.chart, $scope.modules);
         }, true);
 
     });

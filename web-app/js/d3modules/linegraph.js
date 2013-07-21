@@ -1,8 +1,14 @@
 var lineGlobals = {}
 lineGlobals.width = 700;
 lineGlobals.height = 500;
+lineGlobals.borderPadding = 15;
 
 function createLineGraph() {
+    // Scalar functions
+    lineGlobals.xScale = d3.scale.linear()
+        .domain([0, 5])
+        .range([0, lineGlobals.width - lineGlobals.borderPadding]);
+
     var chart = d3.select("#container").append("svg")
         .attr("class", "chart")
         .attr("height", lineGlobals.height)
@@ -12,15 +18,15 @@ function createLineGraph() {
     var borders = [];
     borders[0] = {
         x1: 0,
+        y1: lineGlobals.height - lineGlobals.borderPadding,
         x2: lineGlobals.width,
-        y1: lineGlobals.height,
-        y2: lineGlobals.height
+        y2: lineGlobals.height - lineGlobals.borderPadding
     };
 
     borders[1] = {
         x1: 0,
-        x2: 0,
         y1: 0,
+        x2: 0,
         y2: lineGlobals.height
     };
 
@@ -54,6 +60,17 @@ function createLineGraph() {
         J: color(10)
     }
 
+    var times = [0,1,2,3,4,5];
+
+    // X Axis Labels
+    chart.selectAll(".x-axis-label").data(times)
+        .enter().append("text")
+        .attr("y", lineGlobals.height)
+        .attr("x", function(d) {
+            return lineGlobals.xScale(d);
+        })
+        .text(function(d){return d;})
+
     return chart;
 }
 
@@ -67,7 +84,6 @@ refreshLineGraph = function (chart, modules) {
         .append("line")
         .attr("class", "line")
         .attr("stroke", function (d) {
-            console.log("Adding line", d);
             return d.c;
         });
 
@@ -82,41 +98,58 @@ refreshLineGraph = function (chart, modules) {
         })
         .attr("y2", function (d) {
             return d.y2;
-        });
+        })
+        .attr("stroke", function (d) {
+            return d.c;
+        });;
 
     lines.exit().remove();
 }
 
 
 createLines = function (modules) {
-
     var levels = getTimeLevels(modules);
+
     var yScale = d3.scale.linear()
         .domain([0, d3.max(levels)])
-        .range([0, lineGlobals.height]);
-
-    var xScale = d3.scale.linear()
-        .domain([0, 5])
-        .range([0, lineGlobals.width]);
+        .range([0, lineGlobals.height - lineGlobals.borderPadding]);
 
 
     var lines = [];
     var lineCount = 0;
 
+    console.log("colors", lineGlobals.colors);
+
     for (var m = 0; m < modules.length; m++) {
-        if (modules[m].show) {
+        if (modules[m].display) {
+            console.log("module: ", modules[m]);
+            var letter = modules[m].name[modules[m].name.length - 1];
+            console.log("Letter" , letter);
+            var color = lineGlobals.colors[letter];
+            console.log('color', color);
             for (var t = 1; t < modules[m].timeIncrementMeasurements.length; t++) {
                 var line = {};
-                line.x1 = xScale(modules[m].timeIncrementMeasurements[t - 1].increment);
+                line.x1 = lineGlobals.xScale(modules[m].timeIncrementMeasurements[t - 1].increment);
                 line.y1 = lineGlobals.height - yScale(modules[m].timeIncrementMeasurements[t - 1].level);
-                line.x2 = xScale(modules[m].timeIncrementMeasurements[t].increment);
+                line.x2 = lineGlobals.xScale(modules[m].timeIncrementMeasurements[t].increment);
                 line.y2 = lineGlobals.height - yScale(modules[m].timeIncrementMeasurements[t].level);
-                line.c = lineGlobals.colors[[modules[m].name[modules[m].name.length - 1]]];
+                line.c = color;
                 lines[lineCount++] = line;
             }
         }
     }
-
-    console.log(lines);
     return lines;
+}
+
+getTimeLevels = function (modules) {
+    var levels = new Array();
+    var levelCount = 0;
+    for (var i = 0; i < modules.length; i++) {
+        if (modules[i].display) {
+            for (var j = 0; j < modules[i].timeIncrementMeasurements.length; j++) {
+                levels[levelCount++] = modules[i].timeIncrementMeasurements[j].level;
+            }
+        }
+    }
+    return levels;
 }

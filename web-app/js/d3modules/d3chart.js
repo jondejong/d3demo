@@ -14,13 +14,3 @@ var getLevels = function (modules) {
     }
     return levels;
 }
-
-var getTimeLevels = function (modules) {
-    var levels = new Array();
-    for (var i = 0; i < modules.length; i++) {
-        for (var j = 0; j < modules[i].timeIncrementMeasurements.length; j++) {
-            levels[i] = modules[i].timeIncrementMeasurements[j].level;
-        }
-    }
-    return levels;
-}
