@@ -1,13 +1,13 @@
 var lineGlobals = {}
 lineGlobals.width = 700;
 lineGlobals.height = 500;
-lineGlobals.borderPadding = 15;
+lineGlobals.borderPadding = 20;
 
 function createLineGraph() {
     // Scalar functions
     lineGlobals.xScale = d3.scale.linear()
         .domain([0, 5])
-        .range([0, lineGlobals.width - lineGlobals.borderPadding]);
+        .range([lineGlobals.borderPadding, lineGlobals.width - lineGlobals.borderPadding]);
 
     var chart = d3.select("#container").append("svg")
         .attr("class", "chart")
@@ -24,9 +24,9 @@ function createLineGraph() {
     };
 
     borders[1] = {
-        x1: 0,
+        x1: lineGlobals.borderPadding,
         y1: 0,
-        x2: 0,
+        x2: lineGlobals.borderPadding,
         y2: lineGlobals.height
     };
 
@@ -46,37 +46,41 @@ function createLineGraph() {
         });
 
     //Init line color constants
-    var color = d3.scale.category20();
-    lineGlobals.colors = {
-        A: color(1),
-        B: color(2),
-        C: color(3),
-        D: color(4),
-        E: color(5),
-        F: color(6),
-        G: color(7),
-        H: color(8),
-        I: color(9),
-        J: color(10)
-    }
+//    var color = d3.scale.category20();
+//    lineGlobals.colors = {
+//        A: color(1),
+//        B: color(2),
+//        C: color(3),
+//        D: color(4),
+//        E: color(5),
+//        F: color(6),
+//        G: color(7),
+//        H: color(8),
+//        I: color(9),
+//        J: color(10)
+//    }
 
-    var times = [0,1,2,3,4,5];
+    var times = [0, 1, 2, 3, 4, 5];
 
     // X Axis Labels
     chart.selectAll(".x-axis-label").data(times)
         .enter().append("text")
         .attr("y", lineGlobals.height)
-        .attr("x", function(d) {
+        .attr("x", function (d) {
             return lineGlobals.xScale(d);
         })
-        .text(function(d){return d;})
+        .text(function (d) {
+            return d;
+        })
 
     return chart;
 }
 
 refreshLineGraph = function (chart, modules) {
 
-    var lineData = createLines(modules);
+    var data = createData(modules);
+    var lineData = data.lines;
+    var yLabelData = data.yLabels;
 
     var lines = chart.selectAll(".line").data(lineData);
 
@@ -101,44 +105,56 @@ refreshLineGraph = function (chart, modules) {
         })
         .attr("stroke", function (d) {
             return d.c;
-        });;
+        });
+    ;
+
 
     lines.exit().remove();
+
+    // Y Axis Labels
+    var yLabels = chart.selectAll(".y-axis-label").data(yLabelData);
+    yLabels.enter().append("text")
+        .attr("class", "y-axis-label")
+        .attr("x", 0)
+        .attr("y", function (d, i) {
+            return lineGlobals.height / (i + 1) - lineGlobals.height / 2 + lineGlobals.borderPadding;
+        });
+
+    yLabels.text(function (d) {
+        return d;
+    });
+
+    yLabels.exit().remove();
 }
 
 
-createLines = function (modules) {
+createData = function (modules) {
     var levels = getTimeLevels(modules);
+    var maxLevel = d3.max(levels);
 
     var yScale = d3.scale.linear()
-        .domain([0, d3.max(levels)])
+        .domain([0, maxLevel])
         .range([0, lineGlobals.height - lineGlobals.borderPadding]);
 
 
     var lines = [];
     var lineCount = 0;
 
-    console.log("colors", lineGlobals.colors);
-
     for (var m = 0; m < modules.length; m++) {
         if (modules[m].display) {
-            console.log("module: ", modules[m]);
-            var letter = modules[m].name[modules[m].name.length - 1];
-            console.log("Letter" , letter);
-            var color = lineGlobals.colors[letter];
-            console.log('color', color);
             for (var t = 1; t < modules[m].timeIncrementMeasurements.length; t++) {
                 var line = {};
                 line.x1 = lineGlobals.xScale(modules[m].timeIncrementMeasurements[t - 1].increment);
                 line.y1 = lineGlobals.height - yScale(modules[m].timeIncrementMeasurements[t - 1].level);
                 line.x2 = lineGlobals.xScale(modules[m].timeIncrementMeasurements[t].increment);
                 line.y2 = lineGlobals.height - yScale(modules[m].timeIncrementMeasurements[t].level);
-                line.c = color;
+                line.c = modules[m].background;
                 lines[lineCount++] = line;
             }
         }
     }
-    return lines;
+
+    return {lines: lines, yLabels: [Math.round(maxLevel / 2), maxLevel]};
 }
 
 getTimeLevels = function (modules) {

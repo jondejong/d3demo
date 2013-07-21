@@ -1,6 +1,4 @@
 refreshBarChart = function (chart, modules) {
-
-    console.log("m::", modules);
     var levels = getLevels(modules);
     var scale = d3.scale.linear()
         .domain([0, d3.max(levels)])

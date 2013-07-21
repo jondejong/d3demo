@@ -13,7 +13,6 @@ demo.config(['$routeProvider', function ($routeProvider) {
 }]);
 
 function BarChartCtrl($scope, $http) {
-    console.log("Bar Chart");
     $http.get('/d3demo/module/list/').success(function (data) {
         $scope.modules = data.modules;
         $scope.chart = createChart($scope.modules.length);
@@ -27,7 +26,6 @@ function BarChartCtrl($scope, $http) {
 }
 
 function TransitionalBarChartCtrl($scope, $http) {
-    console.log("Transitional Bar Chart");
     $http.get('/d3demo/module/list/').success(function (data) {
         $scope.modules = data.modules;
         $scope.chart = createChart($scope.modules.length);
@@ -43,8 +41,6 @@ function TransitionalBarChartCtrl($scope, $http) {
 }
 
 function DynamicBarChartCtrl($scope, $http) {
-    console.log("Dynamic Bar Chart");
-
     $scope.newModule = {};
     $scope.newModule.name= 'New';
     $scope.newModule.level = 20;
@@ -82,10 +78,12 @@ function DynamicBarChartCtrl($scope, $http) {
 }
 
 function LineGraphCtrl($scope, $http) {
-    console.log("Line Graph");
+    $scope.color = d3.scale.category20();
     $http.get('/d3demo/module/list/').success(function (data) {
+
         $scope.modules = data.modules;
         for(var i=0;i<$scope.modules.length;i++){
+            $scope.modules[i].background = $scope.color(i);
             $scope.modules[i].display = false;
         }
         $scope.modules[0].display = true;
@@ -99,8 +97,6 @@ function LineGraphCtrl($scope, $http) {
 }
 
 function PieChartCtrl($scope, $http) {
-    console.log("Pie Chart");
-
     $http.get('/d3demo/module/list/').success(function (data) {
         $scope.modules = data.modules;
         $scope.chart = createChart($scope.modules.length);
@@ -115,8 +111,6 @@ function PieChartCtrl($scope, $http) {
 }
 
 function DynamicPieChartCtrl($scope, $http) {
-    console.log("Dynamic Pie Chart");
-
     $http.get('/d3demo/module/list/').success(function (data) {
         $scope.modules = data.modules;
         $scope.parents = [];
@@ -126,7 +120,6 @@ function DynamicPieChartCtrl($scope, $http) {
         refreshDPieChart($scope.chart, $scope);
 
         $scope.loadSubModule = function(id) {
-            console.log("loading ", id);
             for(var i=0; i<$scope.modules.length; i++) {
                 if($scope.modules[i].id == id) {
                     $scope.parents = $scope.modules;
@@ -140,7 +133,6 @@ function DynamicPieChartCtrl($scope, $http) {
 }
 
 function ForceChartCtrl($scope, $http) {
-    console.log("Force Chart");
     $http.get('/d3demo/module/list/').success(function (data) {
         $scope.modules = data.modules;
         $scope.chart = initForceChart();
