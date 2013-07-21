@@ -34,7 +34,6 @@ createGraph = function(modules) {
 refreshForce = function (chart, modules) {
     var graph = createGraph(modules);
     var color = d3.scale.category20();
-//    var transform = "translate(" + forceGlobals.width / 2 + "," + forceGlobals.height / 2 + ")";
 
     modules.filter(function (element, index, array) {
             element.x = 0;
