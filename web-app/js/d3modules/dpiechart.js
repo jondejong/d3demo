@@ -33,6 +33,10 @@ refreshDPieChart = function ($scope) {
 
     var color = d3.scale.category20();
 
+
+    // Create the arc generator.
+    // This function will calculate the d element for each datum
+    // Base on inner radius, radius, start angle, and end angle
     var arc = d3.svg.arc()
         .startAngle(function (d) {
             return d.startAngle;
@@ -43,10 +47,16 @@ refreshDPieChart = function ($scope) {
         .innerRadius(dPieGlobals.innerRadius)
         .outerRadius(dPieGlobals.radius);
 
+    // The Pie Layout
+    // We tell the layout how to get the data from
+    // each datum (the level)
     var pie = d3.layout.pie().value(function (d) {
         return d.level;
     });
 
+    // Apply the pie layout to our modules.
+    // This calculates the start and end angles
+    // for each datum
     var pieData = pie(modules);
 
     pieData.filter( function (element, index, array) {
@@ -73,6 +83,7 @@ refreshDPieChart = function ($scope) {
         })
         .duration(dPieGlobals.duration)
         .delay(dPieGlobals.delay)
+        // apply the arch function to each datum to come up with d
         .attr("d", arc);
 
     paths.exit().remove();
