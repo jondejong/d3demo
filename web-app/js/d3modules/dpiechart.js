@@ -6,12 +6,16 @@ dPieGlobals.innerRadius = 0;
 dPieGlobals.duration = 1000;
 dPieGlobals.delay = 1000;
 
-initDPieChart = function (chart) {
+initDPieChart = function () {
     var w = dPieGlobals.radius * 2.2;
     var h = dPieGlobals.radius * 2.2;
     var transform = "translate(" + w/2 + "," + h/2 + ")";
 
-    chart.attr("height", h);
+    var chart = d3.select("#container").append("svg")
+        .attr("class", "chart")
+        .attr("width", w)
+        .attr("height", h);
+
     dPieGlobals.arc_group = chart.append("svg:g")
         .attr("class", "arc")
         .attr("transform", transform);
@@ -23,9 +27,10 @@ initDPieChart = function (chart) {
 }
 
 // Refresh
-refreshDPieChart = function (chart, $scope) {
+refreshDPieChart = function ($scope) {
 
-    //D3 helper function to create colors from an ordinal scale
+    var modules = $scope.visibleModules;
+
     var color = d3.scale.category20();
 
     var arc = d3.svg.arc()
@@ -42,25 +47,25 @@ refreshDPieChart = function (chart, $scope) {
         return d.level;
     });
 
-    var pieData = pie($scope.modules);
+    var pieData = pie(modules);
 
     pieData.filter( function (element, index, array) {
-            element.name = $scope.modules[index].name;
-            element.level = $scope.modules[index].level;
-            element.id = $scope.modules[index].id;
+            element.name = modules[index].name;
+            element.level = modules[index].level;
+            element.id = modules[index].id;
             return (element.level > 0);
         }
     );
 
-    //DRAW ARC PATHS
     var paths = dPieGlobals.arc_group.selectAll("path").data(pieData);
 
     paths.enter().append("svg:path")
         .attr("stroke", "white")
         .attr("stroke-width", 0.5)
         .on("click", function(d){
-            $scope.loadSubModule(d.id);
+            $scope.handleD3Click(d.id);
         })
+
 
     paths.transition()
         .attr("fill", function (d, i) {
@@ -82,13 +87,12 @@ refreshDPieChart = function (chart, $scope) {
     labels.transition()
         .duration(dPieGlobals.duration)
         .delay(dPieGlobals.delay)
-        .attr("transform", function (d) {                    //set the label's origin to the center of the arc
-            //we have to make sure to set these before calling arc.centroid
+        .attr("transform", function (d) {
             d.innerRadius = dPieGlobals.innerRadius;
             d.outerRadius = dPieGlobals.radius;
-            return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
+            return "translate(" + arc.centroid(d) + ")";
         })
-        .attr("text-anchor", "middle")                          //center the text on it's origin
+        .attr("text-anchor", "middle")
         .text(function (d, i) {
             return d.name[d.name.length - 1];
         });

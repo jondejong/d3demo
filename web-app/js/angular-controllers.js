@@ -113,22 +113,43 @@ function PieChartCtrl($scope, $http) {
 function DynamicPieChartCtrl($scope, $http) {
     $http.get('/d3demo/module/list/').success(function (data) {
         $scope.modules = data.modules;
-        $scope.parents = [];
-        $scope.chart = createChart($scope.modules.length);
+        $scope.visibleModules = $scope.modules;
 
-        initDPieChart($scope.chart);
-        refreshDPieChart($scope.chart, $scope);
+        $scope.root = true;
 
-        $scope.loadSubModule = function(id) {
-            for(var i=0; i<$scope.modules.length; i++) {
-                if($scope.modules[i].id == id && $scope.modules[i].subModules) {
-                    $scope.parents = $scope.modules;
-                    $scope.modules = $scope.modules[i].subModules;
-                    refreshDPieChart($scope.chart, $scope);
-                }
+        initDPieChart();
+        refreshDPieChart($scope);
+
+        $scope.handleClick = function(module) {
+            if($scope.root) {
+                console.log("loading subs: ", module);
+                $scope.root = false;
+                $scope.visibleModules = module.subModules;
+                refreshDPieChart($scope);
             }
         }
 
+        $scope.levelUp = function() {
+            $scope.root = true;
+            $scope.visibleModules = $scope.modules;
+            refreshDPieChart($scope);
+        }
+
+        $scope.handleD3Click = function(id) {
+            if($scope.root) {
+                for(var i=0; i<$scope.modules.length; i++) {
+                    if($scope.modules[i].id == id && $scope.modules[i].subModules) {
+                        $scope.visibleModules = $scope.modules[i].subModules;
+                        $scope.root = false;
+                        refreshDPieChart($scope);
+                    }
+                }
+            } else {
+                $scope.root = true;
+                $scope.visibleModules = $scope.modules;
+                refreshDPieChart($scope);
+            }
+        }
     });
 }
 
