@@ -121,7 +121,7 @@ function DynamicPieChartCtrl($scope, $http) {
 
         $scope.loadSubModule = function(id) {
             for(var i=0; i<$scope.modules.length; i++) {
-                if($scope.modules[i].id == id) {
+                if($scope.modules[i].id == id && $scope.modules[i].subModules) {
                     $scope.parents = $scope.modules;
                     $scope.modules = $scope.modules[i].subModules;
                     refreshDPieChart($scope.chart, $scope);
