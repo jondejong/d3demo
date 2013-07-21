@@ -16,7 +16,7 @@ class ModuleController {
             def moduleMap = [id: module.id, name: module.name, subModules: []]
             module.subModules.each { SubModule subModule ->
                 def subModuleMap = [id: subModule.id, name: subModule.name, timeIncrementMeasurements: []]
-                def timeIncrementtMap = [:]
+                def timeIncrementMap = [:]
                 subModule.timeIncrementMeasurements.each {
 
                     // Add total to parent
@@ -27,16 +27,16 @@ class ModuleController {
                     timeLevels[it.incrementNumber] = timeLevels[it.incrementNumber] + it.level
 
                     // Store it
-                    timeIncrementtMap.put(it.incrementNumber, it.level)
+                    timeIncrementMap.put(it.incrementNumber, it.level)
 
                 }
                 // done with increments. add them to submodule
-                def keys = timeIncrementtMap.keySet().sort{a,b-> a.compareTo(b)}
+                def keys = timeIncrementMap.keySet().sort{a,b-> a.compareTo(b)}
                 keys.each {
-                    subModuleMap.timeIncrementMeasurements.add(["${it}": timeIncrementtMap.get(it)])
+                    subModuleMap.timeIncrementMeasurements.add(["${it}": timeIncrementMap.get(it)])
                 }
 
-                subModuleMap.level = timeIncrementtMap.get(keys.get(keys[keys.size() - 1]))
+                subModuleMap.level = timeIncrementMap.get(keys.get(keys[keys.size() - 1]))
 
                 // add submodule to parent
                 moduleMap.subModules.add(subModuleMap)
@@ -45,16 +45,15 @@ class ModuleController {
 
             def times = []
             timeLevels.keySet().each {
-                times.add(it)
+                times.add([increment: it, level: timeLevels.get(it)])
             }
-            times.sort { a, b -> a.compareTo(b) }
-            def level = timeLevels.get(times.get(times.size() - 1))
-            moduleMap.timeIncrementMeasurements = timeLevels
+            times.sort { a, b -> a.increment.compareTo(b.increment) }
+            def level = timeLevels.get(times.get(times.size() - 1).increment)
+            moduleMap.timeIncrementMeasurements = times
             moduleMap.level = level
 
             responseJSON.modules.add(moduleMap)
         }
-
         render responseJSON as JSON
     }
 }

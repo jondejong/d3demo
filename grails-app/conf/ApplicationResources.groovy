@@ -12,7 +12,6 @@ modules = {
     bootstrap {
         resource url:'css/bootstrap.css'
         resource url:'css/bootstrap-responsive.css'
-//        resource url:'js/bootstrap.js'
     }
 
     angular {
@@ -38,6 +37,7 @@ modules = {
         resource url:'js/d3modules/piechart.js'
         resource url:'js/d3modules/dpiechart.js'
         resource url:'js/d3modules/force.js'
+        resource url:'js/d3modules/linegraph.js'
     }
 
     d3demo {

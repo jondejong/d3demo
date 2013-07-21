@@ -8,3 +8,16 @@
     stroke-opacity: .6;
     stroke-width: 2;
 }
+
+.chart-border {
+    stroke: #0000FF;
+    stroke-width: 4;
+}
+
+.line {
+    stroke-width: 2;
+}
+
+.padded-container {
+    padding: 25px;
+}

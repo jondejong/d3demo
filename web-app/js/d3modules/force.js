@@ -55,7 +55,6 @@ refreshForce = function (chart, modules) {
         .links(graph.links)
         .start();
 
-
         var link = chart.selectAll(".link")
         .data(graph.links)
         .enter().append("line")
@@ -97,5 +96,4 @@ refreshForce = function (chart, modules) {
             });
     });
 
-//    force.start();
 }
