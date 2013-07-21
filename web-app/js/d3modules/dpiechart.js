@@ -33,7 +33,6 @@ refreshDPieChart = function ($scope) {
 
     var color = d3.scale.category20();
 
-
     // Create the arc generator.
     // This function will calculate the d element for each datum
     // Base on inner radius, radius, start angle, and end angle

@@ -11,12 +11,16 @@ pieGlobals.innerRadius = 0;
 pieGlobals.duration = 1000;
 pieGlobals.delay = 1000;
 
-initPieChart = function (chart) {
+initPieChart = function () {
     var w = pieGlobals.radius * 2.2;
     var h = pieGlobals.radius * 2.2;
     var transform = "translate(" + w / 2 + "," + h / 2 + ")";
 
-    chart.attr("height", h);
+    var chart = d3.select("#container").append("svg")
+        .attr("class", "chart")
+        .attr("width", w)
+        .attr("height", h);
+
     pieGlobals.arc_group = chart.append("svg:g")
         .attr("class", "arc")
         .attr("transform", transform);
@@ -28,11 +32,12 @@ initPieChart = function (chart) {
 }
 
 // Refresh
-refreshPieChart = function (chart, modules) {
-
-    //D3 helper function to create colors from an ordinal scale
+refreshPieChart = function (modules) {
     var color = d3.scale.category20();
 
+    // Create the arc generator.
+    // This function will calculate the d element for each datum
+    // Base on inner radius, radius, start angle, and end angle
     var arc = d3.svg.arc()
         .startAngle(function (d) {
             return d.startAngle;
@@ -43,10 +48,16 @@ refreshPieChart = function (chart, modules) {
         .innerRadius(pieGlobals.innerRadius)
         .outerRadius(pieGlobals.radius);
 
+    // The Pie Layout
+    // We tell the layout how to get the data from
+    // each datum (the level)
     var pie = d3.layout.pie().value(function (d) {
         return d.level;
     });
 
+    // Apply the pie layout to our modules.
+    // This calculates the start and end angles
+    // for each datum
     var pieData = pie(modules);
 
     pieData.filter(function (element, index, array) {
@@ -56,7 +67,6 @@ refreshPieChart = function (chart, modules) {
         }
     );
 
-    //DRAW ARC PATHS
     var paths = pieGlobals.arc_group.selectAll("path").data(pieData);
 
     paths.enter().append("svg:path")
@@ -69,6 +79,7 @@ refreshPieChart = function (chart, modules) {
         })
         .duration(pieGlobals.duration)
         .delay(pieGlobals.delay)
+        // apply the arch function to each datum to come up with d
         .attr("d", arc);
 
 
@@ -80,13 +91,12 @@ refreshPieChart = function (chart, modules) {
 
     labels.transition()
         .duration(pieGlobals.duration)
-        .delay(pieGlobals.delay).attr("transform", function (d) {                    //set the label's origin to the center of the arc
-            //we have to make sure to set these before calling arc.centroid
+        .delay(pieGlobals.delay).attr("transform", function (d) {
             d.innerRadius = pieGlobals.innerRadius;
             d.outerRadius = pieGlobals.radius;
-            return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
+            return "translate(" + arc.centroid(d) + ")";
         })
-        .attr("text-anchor", "middle")                          //center the text on it's origin
+        .attr("text-anchor", "middle")
         .text(function (d, i) {
             return d.name[d.name.length - 1];
         });
