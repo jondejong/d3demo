@@ -7,7 +7,7 @@ demo.config(['$routeProvider', function ($routeProvider) {
         when('/dbarchart', {templateUrl: '/d3demo/partial/module/dynamicBar', controller: DynamicBarChartCtrl}).
         when('/linegraph', {templateUrl: '/d3demo/partial/module/linegraph', controller: LineGraphCtrl}).
         when('/piechart', {templateUrl: '/d3demo/partial/module/list', controller: PieChartCtrl}).
-        when('/dpiechart', {templateUrl: '/d3demo/partial/module/dynamicPie', controller: DynamicPieChartCtrl}).
+        when('/dpiechart', {templateUrl: '/d3demo/partial/module/chart', controller: DynamicPieChartCtrl}).
         when('/forcechart', {templateUrl: '/d3demo/partial/module/chart', controller: ForceChartCtrl}).
         otherwise({redirectTo: '/barchart'});
 }]);
