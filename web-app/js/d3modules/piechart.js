@@ -101,5 +101,4 @@ refreshPieChart = function (modules) {
             return d.name[d.name.length - 1];
         });
 
-
 }

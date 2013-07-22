@@ -38,6 +38,7 @@ modules = {
         resource url:'js/d3modules/dpiechart.js'
         resource url:'js/d3modules/force.js'
         resource url:'js/d3modules/linegraph.js'
+        resource url:'js/d3modules/linegraph2.js'
     }
 
     d3demo {

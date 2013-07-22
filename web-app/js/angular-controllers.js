@@ -6,6 +6,7 @@ demo.config(['$routeProvider', function ($routeProvider) {
         when('/tbarchart', {templateUrl: '/d3demo/partial/module/list', controller: TransitionalBarChartCtrl}).
         when('/dbarchart', {templateUrl: '/d3demo/partial/module/dynamicBar', controller: DynamicBarChartCtrl}).
         when('/linegraph', {templateUrl: '/d3demo/partial/module/linegraph', controller: LineGraphCtrl}).
+        when('/linegraph2', {templateUrl: '/d3demo/partial/module/linegraph', controller: LineGraph2Ctrl}).
         when('/piechart', {templateUrl: '/d3demo/partial/module/list', controller: PieChartCtrl}).
         when('/dpiechart', {templateUrl: '/d3demo/partial/module/chart', controller: DynamicPieChartCtrl}).
         when('/forcechart', {templateUrl: '/d3demo/partial/module/chart', controller: ForceChartCtrl}).
@@ -96,15 +97,33 @@ function LineGraphCtrl($scope, $http) {
     });
 }
 
+function LineGraph2Ctrl($scope, $http) {
+    $scope.color = d3.scale.category20();
+    $http.get('/d3demo/module/list/').success(function (data) {
+
+        $scope.modules = data.modules;
+        for(var i=0;i<$scope.modules.length;i++){
+            $scope.modules[i].background = $scope.color(i);
+            $scope.modules[i].display = false;
+        }
+        $scope.modules[0].display = true;
+        $scope.chart = createLineGraph2();
+
+        $scope.$watch('modules', function() {
+            refreshLineGraph2($scope.chart, $scope.modules);
+        }, true);
+
+    });
+}
+
 function PieChartCtrl($scope, $http) {
     $http.get('/d3demo/module/list/').success(function (data) {
         $scope.modules = data.modules;
-        $scope.chart = createChart($scope.modules.length);
 
-        initPieChart($scope.chart);
+        initPieChart();
 
         $scope.$watch('modules', function() {
-            refreshPieChart($scope.chart, $scope.modules);
+            refreshPieChart($scope.modules);
         }, true);
 
     });

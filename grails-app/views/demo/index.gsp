@@ -6,6 +6,7 @@
     <li><a href="#/tbarchart">Transitional Bar Chart</a></li>
     <li><a href="#/dbarchart">Dynamic Bar Chart</a></li>
     <li><a href="#/linegraph">Line Graph</a></li>
+    <li><a href="#/linegraph2">Line Graph 2</a></li>
     <li><a href="#/piechart">Pie Chart</a></li>
     <li><a href="#/dpiechart">Dynamic Pie Chart</a></li>
     <li><a href="#/forcechart">Force Chart</a></li>

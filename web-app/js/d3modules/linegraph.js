@@ -45,21 +45,6 @@ function createLineGraph() {
             return d.y2;
         });
 
-    //Init line color constants
-//    var color = d3.scale.category20();
-//    lineGlobals.colors = {
-//        A: color(1),
-//        B: color(2),
-//        C: color(3),
-//        D: color(4),
-//        E: color(5),
-//        F: color(6),
-//        G: color(7),
-//        H: color(8),
-//        I: color(9),
-//        J: color(10)
-//    }
-
     var times = [0, 1, 2, 3, 4, 5];
 
     // X Axis Labels
