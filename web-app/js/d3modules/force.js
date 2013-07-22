@@ -1,8 +1,9 @@
 var forceGlobals = {};
 forceGlobals.arc_group;
 forceGlobals.label_group;
-forceGlobals.width = 600;
-forceGlobals.height = 400;
+forceGlobals.width = 700;
+forceGlobals.height = 600;
+forceGlobals.linkDistance = 50;
 
 initForceChart = function () {
     var chart = d3.select("#container").append("svg")
@@ -24,16 +25,14 @@ refreshForce = function (chart, modules) {
         }
     );
 
-    console.log('nodes', graph.nodes);
-
     var force = d3.layout.force()
 
         .charge(function (d) {
             return -100 - d.level;
         })
         .size([forceGlobals.width, forceGlobals.height])
-        .linkDistance(40)
-;
+        .linkDistance(forceGlobals.linkDistance);
+
     force
         .nodes(graph.nodes)
         .links(graph.links)
@@ -56,6 +55,20 @@ refreshForce = function (chart, modules) {
             return color(i);
         })
 
+    // Labels
+    var label = chart.selectAll(".text").data(graph.nodes)
+        .enter()
+        .append("text")
+        .text(function(d){
+            return d.label;
+        })
+        .attr("x", function(d) {
+            return d.x;
+        })
+        .attr("y", function(d){
+            return d.y;
+        });
+
     force.on("tick", function () {
 
         link.attr("x1", function (d) {
@@ -77,6 +90,13 @@ refreshForce = function (chart, modules) {
             .attr("cy", function (d) {
                 return d.y;
             });
+
+        label.attr("x", function(d) {
+            return d.x;
+        })
+            .attr("y", function(d){
+                return d.y;
+            });
     });
 
 }
@@ -89,10 +109,12 @@ createGraph = function(modules) {
     var node = 0;
     var link = 0;
     for(var i=0; i<modules.length; i++) {
-        graph.nodes[node++] = {name: modules[i].name, level: modules[i].level}
+        var module = modules[i];
+        graph.nodes[node++] = {level: module.level, label: module.name[module.name.length - 1]}
         var source = node - 1;
-        for(var j=0; j<modules[i].subModules.length; j++) {
-            graph.nodes[node++] = {name: modules[i].subModules[j], level: modules[i].subModules[j].level};
+        for(var j=0; j<module.subModules.length; j++) {
+            var subModule = module.subModules[j];
+            graph.nodes[node++] = {level: subModule.level, label: subModule.name[subModule.name.length - 1]};
             graph.links[link++] = {source: source, target: node - 1};
         }
     }

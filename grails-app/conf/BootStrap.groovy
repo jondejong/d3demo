@@ -13,15 +13,16 @@ class BootStrap {
             def module = new Module(name: "Module ${letters[parent]}")
 
             def subsMap = [:]
+            def subCount = random.nextInt(3) + 2
 
-            for(sub in 0..2) {
+            for(sub in 0..subCount) {
                 subsMap.put(sub, new SubModule(name: "${letters[parent]} Submodule ${sub + 1}"))
             }
 
             for(increment in 0..5) {
-                for(sub in 0..2) {
+                for(sub in 0..subCount) {
                     SubModule subModule = subsMap.get(sub)
-                    subModule.addToTimeIncrementMeasurements(new TimeIncrementMeasurement(incrementNumber: increment, level: random.nextInt(10)))
+                    subModule.addToTimeIncrementMeasurements(new TimeIncrementMeasurement(incrementNumber: increment, level: random.nextInt(10) + 1))
                 }
             }
 
