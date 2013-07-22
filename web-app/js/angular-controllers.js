@@ -141,7 +141,6 @@ function DynamicPieChartCtrl($scope, $http) {
 
         $scope.handleClick = function(module) {
             if($scope.root) {
-                console.log("loading subs: ", module);
                 $scope.root = false;
                 $scope.visibleModules = module.subModules;
                 refreshDPieChart($scope);

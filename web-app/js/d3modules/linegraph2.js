@@ -67,8 +67,6 @@ refreshLineGraph2 = function (chart, modules) {
     var lineData = data.lines;
     var yLabelData = data.yLabels;
 
-    console.log("LD", lineData);
-
     var line = d3.svg.line()
         .x(function (d, i) {
             return lineGlobals2.xScale(i);
@@ -84,7 +82,6 @@ refreshLineGraph2 = function (chart, modules) {
         .attr("class", "line");
 
     lines.attr("d", function(d) {
-            console.log("d", d);
             return line(d.points);
         })
         .attr("stroke", function(d){

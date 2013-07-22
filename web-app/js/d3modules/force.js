@@ -6,41 +6,25 @@ forceGlobals.height = 400;
 
 initForceChart = function () {
     var chart = d3.select("#container").append("svg")
-//        .attr("class", "chart")
+        .attr("class", "chart")
         .attr("width", forceGlobals.width)
         .attr("height", forceGlobals.height);
 
     return chart;
 }
 
-createGraph = function(modules) {
-    var graph = {};
-    graph.nodes = [];
-    graph.links = [];
-
-    var node = 0;
-    var link = 0;
-    for(var i=0; i<modules.length; i++) {
-        graph.nodes[node++] = {name: modules[i].name, level: modules[i].level}
-        var source = node - 1;
-        for(var j=0; j<modules[i].subModules.length; j++) {
-            graph.nodes[node++] = {name: modules[i].subModules[j], level: modules[i].subModules[j].level};
-            graph.links[link++] = {source: source, target: node - 1};
-        }
-    }
-    return graph;
-}
-
 refreshForce = function (chart, modules) {
     var graph = createGraph(modules);
     var color = d3.scale.category20();
 
-    modules.filter(function (element, index, array) {
-            element.x = 0;
-            element.y = 0;
+    graph.nodes.filter(function (element, index, array) {
+            element.x = forceGlobals.width/2;
+            element.y = forceGlobals.height/2;
             return (element.level > 0);
         }
     );
+
+    console.log('nodes', graph.nodes);
 
     var force = d3.layout.force()
 
@@ -71,7 +55,6 @@ refreshForce = function (chart, modules) {
         .attr("fill", function (d, i) {
             return color(i);
         })
-        .call(force.drag);
 
     force.on("tick", function () {
 
@@ -96,4 +79,22 @@ refreshForce = function (chart, modules) {
             });
     });
 
+}
+
+createGraph = function(modules) {
+    var graph = {};
+    graph.nodes = [];
+    graph.links = [];
+
+    var node = 0;
+    var link = 0;
+    for(var i=0; i<modules.length; i++) {
+        graph.nodes[node++] = {name: modules[i].name, level: modules[i].level}
+        var source = node - 1;
+        for(var j=0; j<modules[i].subModules.length; j++) {
+            graph.nodes[node++] = {name: modules[i].subModules[j], level: modules[i].subModules[j].level};
+            graph.links[link++] = {source: source, target: node - 1};
+        }
+    }
+    return graph;
 }
