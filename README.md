@@ -18,27 +18,35 @@ There are 8 different charts modelling the same data set in HTML SVG tags. Each 
 
 #### Bar Chart
 
-A very simple bar chart using SVG Rects.
+Bar Chart very simple bar chart using SVG Rects.
 
 #### Transitional Bar Chart
 
-This takes our simple example and adds transitions. There are varying transitions in the code documented and commented out. You can change which is applied to see the effects.
+Transitional Bar Chart takes our simple example and adds transitions. There are varying transitions in the code documented and commented out. You can change which is applied to see the effects.
 
 #### Dynamic Bar Chart
 
-This adds to our bar chart by making it dynamic. You can add an remove data dynamically using the enter and exit selections.
+The Dynamic Bar Chart adds to the Bar Chart by making it dynamic. The user can add an remove data dynamically using the enter and exit selections.
 
 #### Line Graph
 
-The Line Graph is a simple line graph allowing the user to dynamically add/remove data sets. This models our data changing over time (see [Data Model] (#the-data-model)).
+The Line Graph is a simple line graph allowing the user to dynamically add/remove data sets. This models our data changing over time (see [Data Model] (#the-data-model)). This line graph is built by manually calculating points and adding SVG Line elements.
 
 #### Line Graph 2
 
+To the user, Line Graph 2 appears the same as Line Graph. Under the hood, however, it uses the D3 Line generator as outputs SVG Path elements instead of Lines.
+
 #### Pie Chart
+
+Pie Chart is a basic Pie Chart using the D3 Arch Generator and Pie Layout.
 
 #### Dynamic Pie Chart
 
+Dynamic Pie Chart adds to Pie Chart by adding click events and transitions.
+
 #### Force Chart
+
+Force Chart is a very simple bubble chart utilizing the the D3 Force Layout.
 
 ## The Data Model
 
