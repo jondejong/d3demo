@@ -1,6 +1,6 @@
 # d3demo
 
-Demoing D3 with Angular and Grails
+Demoing D3 with Angularjs and Grails
 
 ## Overview
 
@@ -14,7 +14,7 @@ There is a very simple single page example in /Example/example.html. This is a s
 
 ## The Charts
 
-There are 8 different charts modelling the same data set in HTML SVG tags. Each chart has a corresponding JS file in web-app/js/d3modules the relevant D3 code that renders the chart. This leads to way more code than is needed for this application --there's lots of duplicate code that could be refactored into a shared location -- but it makes it easier to read as almost entirely self contained modules.
+There are 8 different charts modelling the same data set in HTML SVG tags. Each chart has a corresponding JS file in web-app/js/d3modules the relevant D3 code that renders the chart. This leads to way more code than is needed for this application --there's lots of duplicate code that could be refactored into a shared location -- but it makes it easier to read as almost entirely self contained modules. However, there is some common utility code in d3chart.js.
 
 #### Bar Chart
 
@@ -50,7 +50,16 @@ Force Chart is a very simple bubble chart utilizing the the D3 Force Layout.
 
 ## The Data Model
 
+The data model consists of Modules, Submodules, and TimeIncrementMeasurements. Each module and submodule contains a "level" (the value). This is intended to mimic data that both consists of other data, and changes over time. The are 6 time increments (0-5) measuring the level of a given module or submodule at that increment. Each module's level is the sum of the levels of it's submodules.
+
 ## Architectural Overview
+
+d3demo runs on Grails 2.2. At startup, it populates an H2 database instance with random data. The ModuleController fetches this data and creates a JSON string. This JSON string is fetched by Angularjs controllers and passed off to the D3 modules.
+
+The navigation and ng-view around this app resides in demo/index.
+
+The Angualrjs cotnrollers are defined in /web-app/js/angular-controllers.js. These fetch the appropriate HTML partials via the Grails PartialController. These partials are very small fragments and most of the DOM is built up with D3 and in some cases, Angularjs. The Angularjs controllers also fetch the JSON representation of the model, massage it if necessary, and call the relevant function calls into the D3 modules.
+
 
 
 
