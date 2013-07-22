@@ -8,6 +8,9 @@ This is a demo of various graph types in D3, originally written for G8Conf US 20
 
 d3demo is a Grails 2.2 Application. If you have Grails 2.2 running, you can clone or fork this repo, call "grails run-app", and get it running.
 
+##### NOTE:
+This is a demo application only and as such, has not been cross-browser tested. It has only been tested in the latest version of Chrome, which as of this writing is 28.
+
 ## The Simple Example
 
 There is a very simple single page example in /Example/example.html. This is a standalone page designed to demo very basic selections, joins, and DOM manipulations.
