@@ -3,7 +3,7 @@ forceGlobals.arc_group;
 forceGlobals.label_group;
 forceGlobals.width = 700;
 forceGlobals.height = 600;
-forceGlobals.linkDistance = 50;
+forceGlobals.linkDistance = 75;
 
 initForceChart = function () {
     var chart = d3.select("#container").append("svg")
