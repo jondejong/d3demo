@@ -1,6 +1,4 @@
 var forceGlobals = {};
-forceGlobals.arc_group;
-forceGlobals.label_group;
 forceGlobals.width = 700;
 forceGlobals.height = 600;
 forceGlobals.linkDistance = 75;
