@@ -74,6 +74,7 @@ refreshDPieChart = function ($scope) {
         .on("click", function(d){
             $scope.handleD3Click(d.id);
         })
+        .attr("fill", "#ffffff");
 
 
     paths.transition()
@@ -85,7 +86,11 @@ refreshDPieChart = function ($scope) {
         // apply the arch function to each datum to come up with d
         .attr("d", arc);
 
-    paths.exit().remove();
+    paths.exit()
+        .transition()
+        .duration(dPieGlobals.duration)
+        .attr("fill", "#ffffff")
+        .remove();
 
 
 //    labels

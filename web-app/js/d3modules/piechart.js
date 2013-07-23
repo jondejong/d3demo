@@ -72,6 +72,7 @@ refreshPieChart = function (modules) {
     paths.enter().append("svg:path")
         .attr("stroke", "white")
         .attr("stroke-width", 0.5)
+        .attr("fill", "#ffffff");
 
     paths.transition()
         .attr("fill", function (d, i) {

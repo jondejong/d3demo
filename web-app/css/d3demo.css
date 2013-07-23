@@ -21,3 +21,7 @@
 .padded-container {
     padding: 25px;
 }
+
+.fixed-nav {
+    width: 150px;
+}
