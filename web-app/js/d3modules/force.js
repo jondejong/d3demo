@@ -17,8 +17,8 @@ refreshForce = function (chart, modules) {
     var color = d3.scale.category20();
 
     graph.nodes.filter(function (element, index, array) {
-            element.x = forceGlobals.width/2;
-            element.y = forceGlobals.height/2;
+            element.x = forceGlobals.width / 2;
+            element.y = forceGlobals.height / 2;
             return (element.level > 0);
         }
     );
@@ -30,12 +30,11 @@ refreshForce = function (chart, modules) {
         .size([forceGlobals.width, forceGlobals.height])
         .linkDistance(forceGlobals.linkDistance);
 
-    force
-        .nodes(graph.nodes)
+    force.nodes(graph.nodes)
         .links(graph.links)
         .start();
 
-        var link = chart.selectAll(".link")
+    var link = chart.selectAll(".link")
         .data(graph.links)
         .enter().append("line")
         .attr("class", "link");
@@ -56,13 +55,13 @@ refreshForce = function (chart, modules) {
     var label = chart.selectAll(".text").data(graph.nodes)
         .enter()
         .append("text")
-        .text(function(d){
+        .text(function (d) {
             return d.label;
         })
-        .attr("x", function(d) {
+        .attr("x", function (d) {
             return d.x;
         })
-        .attr("y", function(d){
+        .attr("y", function (d) {
             return d.y;
         });
 
@@ -88,28 +87,28 @@ refreshForce = function (chart, modules) {
                 return d.y;
             });
 
-        label.attr("x", function(d) {
+        label.attr("x", function (d) {
             return d.x;
         })
-            .attr("y", function(d){
+            .attr("y", function (d) {
                 return d.y;
             });
     });
 
 }
 
-createGraph = function(modules) {
+createGraph = function (modules) {
     var graph = {};
     graph.nodes = [];
     graph.links = [];
 
     var node = 0;
     var link = 0;
-    for(var i=0; i<modules.length; i++) {
+    for (var i = 0; i < modules.length; i++) {
         var module = modules[i];
         graph.nodes[node++] = {level: module.level, label: module.name[module.name.length - 1]}
         var source = node - 1;
-        for(var j=0; j<module.subModules.length; j++) {
+        for (var j = 0; j < module.subModules.length; j++) {
             var subModule = module.subModules[j];
             graph.nodes[node++] = {level: subModule.level, label: subModule.name[subModule.name.length - 1]};
             graph.links[link++] = {source: source, target: node - 1};
