@@ -5,7 +5,6 @@
 //GROUP FOR ARCS/PATHS
 
 var pieGlobals = {};
-pieGlobals.arc_group;
 pieGlobals.radius = 150;
 pieGlobals.innerRadius = 0;
 pieGlobals.duration = 1000;
