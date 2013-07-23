@@ -72,9 +72,6 @@ refreshLineGraph = function (chart, modules) {
     lines.enter()
         .append("line")
         .attr("class", "line")
-        .attr("stroke", function (d) {
-            return d.c;
-        });
 
     lines.attr("x1", function (d) {
         return d.x1;
@@ -92,7 +89,6 @@ refreshLineGraph = function (chart, modules) {
             return d.c;
         });
     ;
-
 
     lines.exit().remove();
 
@@ -113,6 +109,7 @@ refreshLineGraph = function (chart, modules) {
 }
 
 
+// Turn modules into line data
 createData = function (modules) {
     var levels = getTimeLevels(modules);
     var maxLevel = d3.max(levels);
@@ -120,7 +117,6 @@ createData = function (modules) {
     var yScale = d3.scale.linear()
         .domain([0, maxLevel])
         .range([0, lineGlobals.height - lineGlobals.borderPadding]);
-
 
     var lines = [];
     var lineCount = 0;

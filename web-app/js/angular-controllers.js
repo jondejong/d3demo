@@ -89,7 +89,6 @@ function DynamicBarChartCtrl($scope, $http) {
 function LineGraphCtrl($scope, $http) {
     $scope.color = d3.scale.category20();
     $http.get('/d3demo/module/list/').success(function (data) {
-
         $scope.modules = data.modules;
         for(var i=0;i<$scope.modules.length;i++){
             $scope.modules[i].background = $scope.color(i);

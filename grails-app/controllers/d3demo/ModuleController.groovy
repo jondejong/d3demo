@@ -14,7 +14,7 @@ class ModuleController {
     def list() {
         def responseJSON = [:]
 
-        def modules = Module.findAll()
+        def modules = Module.findAll().sort{a,b -> a.name.compareTo(b.name)};
 
         responseJSON.modules = []
 

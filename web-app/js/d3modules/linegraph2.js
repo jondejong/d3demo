@@ -72,7 +72,7 @@ refreshLineGraph2 = function (chart, modules) {
             return lineGlobals2.xScale(i);
 
         })
-        .y(function (d, i) {
+        .y(function (d) {
             return lineGlobals2.height - lineGlobals2.yScale(d);
         })
 
@@ -87,7 +87,6 @@ refreshLineGraph2 = function (chart, modules) {
         .attr("stroke", function(d){
             return d.c;
         })
-        .attr("stroke-width", 2)
         // This is a path not a line, don't fill it.
         .attr("fill", 'none');
 
