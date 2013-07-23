@@ -35,9 +35,9 @@ refreshTBarChart = function (chart, modules) {
     var rects = chart.selectAll("rect").data(modules);
 
     // Basic Transition
-//    rects.transition().attr("width", function (d, i) {
-//        return scale(d.level);
-//    });
+    rects.transition().attr("width", function (d, i) {
+        return scale(d.level);
+    });
 
 // Transition with 3 second delay
 //    rects.transition().delay(3000).attr("width", function (d, i) {
@@ -45,32 +45,30 @@ refreshTBarChart = function (chart, modules) {
 //    });
 
 
-// Modify druation
+// Modify duration
 //    rects.transition().duration(5000).attr("width", function(d, i){
-//    return scale(d.level);
-//})
+//        return scale(d.level);
+//    });
 
 // Use a function to modify the duration
 //    rects.transition().duration(extendTransition).attr("width", function(d, i){
-//    return scale(d.level);
-//})
+//        return scale(d.level);
+//    });
 
 // User a function to stagger the delay
 //    rects.transition().delay(staggeredDelay).attr("width", function(d, i){
-//    return scale(d.level);
-//})
+//        return scale(d.level);
+//    });
 
 
 // Chain duration and delay functions
-    rects.transition().duration(extendTransition).delay(staggeredDelay).attr("width", function(d, i){
-        return scale(d.level);
-    });
-
+//    rects.transition().duration(extendTransition).delay(staggeredDelay).attr("width", function(d, i){
+//        return scale(d.level);
+//    });
 
 }
 
-
-var extendTransition = function (d, i) {
+var extendTransition = function (d) {
     return 40 * d.level;
 }
 
