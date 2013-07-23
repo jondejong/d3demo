@@ -13,6 +13,14 @@ demo.config(['$routeProvider', function ($routeProvider) {
         otherwise({redirectTo: '/barchart'});
 }]);
 
+function navigationCtrl($scope, $http, $route) {
+    $scope.randomize = function () {
+        $http.get('/d3demo/module/randomize').success(function(data) {
+            $route.reload();
+        });
+    }
+}
+
 function BarChartCtrl($scope, $http) {
     $http.get('/d3demo/module/list/').success(function (data) {
         $scope.modules = data.modules;

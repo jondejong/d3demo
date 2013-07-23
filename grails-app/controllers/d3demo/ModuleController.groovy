@@ -4,6 +4,13 @@ import grails.converters.JSON
 
 class ModuleController {
 
+    def moduleService
+
+    def randomize() {
+        moduleService.randomize()
+        redirect(action: 'list')
+    }
+
     def list() {
         def responseJSON = [:]
 
