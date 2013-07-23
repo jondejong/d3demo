@@ -16,11 +16,11 @@ initDPieChart = function () {
         .attr("width", w)
         .attr("height", h);
 
-    dPieGlobals.arc_group = chart.append("svg:g")
+    dPieGlobals.arc_group = chart.append("g")
         .attr("class", "arc")
         .attr("transform", transform);
 
-    dPieGlobals.label_group = chart.append("svg:g")
+    dPieGlobals.label_group = chart.append("g")
         .attr("class", "label_group")
         .attr("transform", transform);
 
@@ -68,7 +68,7 @@ refreshDPieChart = function ($scope) {
 
     var paths = dPieGlobals.arc_group.selectAll("path").data(pieData);
 
-    paths.enter().append("svg:path")
+    paths.enter().append("path")
         .attr("stroke", "white")
         .attr("stroke-width", 0.5)
         .on("click", function(d){
@@ -96,7 +96,7 @@ refreshDPieChart = function ($scope) {
 //    labels
     var labels = dPieGlobals.label_group.selectAll('text.value').data(pieData);
 
-    labels.enter().append("svg:text")
+    labels.enter().append("text")
         .attr("class", "value");
 
     labels.transition()

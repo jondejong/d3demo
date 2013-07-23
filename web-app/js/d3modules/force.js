@@ -1,7 +1,7 @@
 var forceGlobals = {};
 forceGlobals.width = 700;
 forceGlobals.height = 600;
-forceGlobals.linkDistance = 75;
+forceGlobals.linkDistance = 60;
 
 initForceChart = function () {
     var chart = d3.select("#container").append("svg")
@@ -24,9 +24,8 @@ refreshForce = function (chart, modules) {
     );
 
     var force = d3.layout.force()
-
         .charge(function (d) {
-            return -100 - d.level;
+            return -100 - (2 * d.level);
         })
         .size([forceGlobals.width, forceGlobals.height])
         .linkDistance(forceGlobals.linkDistance);

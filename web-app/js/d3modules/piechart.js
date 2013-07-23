@@ -20,11 +20,11 @@ initPieChart = function () {
         .attr("width", w)
         .attr("height", h);
 
-    pieGlobals.arc_group = chart.append("svg:g")
+    pieGlobals.arc_group = chart.append("g")
         .attr("class", "arc")
         .attr("transform", transform);
 
-    pieGlobals.label_group = chart.append("svg:g")
+    pieGlobals.label_group = chart.append("g")
         .attr("class", "label_group")
         .attr("transform", transform);
 
@@ -68,7 +68,7 @@ refreshPieChart = function (modules) {
 
     var paths = pieGlobals.arc_group.selectAll("path").data(pieData);
 
-    paths.enter().append("svg:path")
+    paths.enter().append("path")
         .attr("stroke", "white")
         .attr("stroke-width", 0.5)
         .attr("fill", "#ffffff");
@@ -86,7 +86,7 @@ refreshPieChart = function (modules) {
 //    labels
     var labels = pieGlobals.label_group.selectAll('text.value').data(pieData);
 
-    labels.enter().append("svg:text")
+    labels.enter().append("text")
         .attr("class", "value");
 
     labels.transition()
