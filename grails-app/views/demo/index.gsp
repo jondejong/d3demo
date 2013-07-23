@@ -18,6 +18,6 @@
 <div ng-view class="container-fluid"></div>
 
 
-<div ng-controller="navigationCtrl">
+<div ng-controller="navigationCtrl" class="padded-container">
     <input type="button" class="btn-primary" data-ng-click="randomize()" value="Randomize Data"/>
 </div>
